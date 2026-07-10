@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light only">
+<title>Narges Sadat — Mathematics · Computer Science · Analytical Thinking</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='31' fill='%230E1730'/%3E%3Ccircle cx='32' cy='32' r='26' fill='none' stroke='%23C6A15B' stroke-width='1.4'/%3E%3Ctext x='32' y='33' font-family='Georgia,%20%27Times%20New%20Roman%27,serif' font-size='23' font-weight='600' fill='%23FAF6EA' text-anchor='middle' dominant-baseline='central'%3ENS%3C/text%3E%3C/svg%3E">
+<style>
+  :root{
+    color-scheme: light;
+    --cream:#FAF6EA;
+    --cream-deep:#FFFDF7;
+    --navy:#1C2B4A;
+    --midnight:#0E1730;
+    --gold:#C6A15B;
+    --slate:#5D7A9E;
+    --line: rgba(28,43,74,0.16);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--cream);
+    color:var(--navy);
+    font-family:'Inter', sans-serif;
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  ::selection{ background:var(--gold); color:var(--midnight); }
+
+  h1,h2,h3{ font-family:'Fraunces', serif; font-weight:600; color:var(--midnight); }
+
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--slate);
+  }
+
+  a{ color:inherit; }
+
+  .wrap{ max-width:1080px; margin:0 auto; padding:0 32px; }
+
+  /* NAV */
+  nav{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    background:rgba(243,236,221,0.85);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  nav .wrap{
+    display:flex; align-items:center; justify-content:space-between;
+    height:64px;
+  }
+  .monogram{
+    font-family:'Fraunces', serif; font-weight:700; font-size:1.15rem;
+    color:var(--midnight);
+    display:flex; align-items:center; gap:8px;
+  }
+  .monogram .dot{ width:7px; height:7px; border-radius:50%; background:var(--gold); }
+  .navlinks{ display:flex; gap:28px; }
+  .navlinks a{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.78rem;
+    letter-spacing:0.04em;
+    text-decoration:none;
+    color:var(--navy);
+    position:relative;
+    padding-bottom:3px;
+  }
+  .navlinks a::after{
+    content:''; position:absolute; left:0; bottom:0; height:1px; width:0;
+    background:var(--gold); transition:width .25s ease;
+  }
+  .navlinks a:hover::after{ width:100%; }
+  .navtoggle{ display:none; }
+
+  /* HERO */
+  .hero{
+    min-height:100vh;
+    display:flex; flex-direction:column; justify-content:center;
+    position:relative;
+    padding-top:64px;
+  }
+  .hero .wrap{ position:relative; }
+  .hero-eyebrow{ margin-bottom:22px; display:flex; align-items:center; gap:10px; }
+  .hero-eyebrow .rule{ width:36px; height:1px; background:var(--gold); }
+  h1.headline{
+    font-size:clamp(2.6rem, 6.4vw, 5.2rem);
+    line-height:1.04;
+    font-weight:600;
+    letter-spacing:-0.01em;
+    max-width:14ch;
+  }
+  h1.headline em{
+    font-style:italic; font-weight:400; color:var(--slate);
+  }
+  .hero-sub{
+    margin-top:26px;
+    max-width:52ch;
+    font-size:1.08rem;
+    color:var(--navy);
+  }
+  .hero-sub strong{ color:var(--midnight); font-weight:600; }
+  .hero-tags{
+    margin-top:34px; display:flex; flex-wrap:wrap; gap:10px;
+  }
+  .tag{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    letter-spacing:0.03em;
+    padding:7px 13px;
+    border:1px solid var(--line);
+    border-radius:100px;
+    color:var(--navy);
+    background:var(--cream-deep);
+    transition:border-color .25s ease, transform .25s ease;
+  }
+  .tag:hover{ border-color:var(--gold); transform:translateY(-2px); }
+  .scroll-cue{
+    position:absolute; bottom:38px; left:32px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.68rem;
+    letter-spacing:0.12em;
+    color:var(--slate);
+    display:flex; align-items:center; gap:10px;
+  }
+  .scroll-cue .stem{
+    width:1px; height:34px; background:linear-gradient(var(--slate), transparent);
+  }
+
+  section{ padding:120px 0; position:relative; }
+  .section-head{ margin-bottom:56px; max-width:640px; }
+  .section-head h2{ font-size:clamp(1.9rem,3.4vw,2.6rem); margin-top:10px; }
+
+  /* ABOUT */
+  .about-grid{
+    display:grid; grid-template-columns: 0.9fr 1.1fr; gap:64px; align-items:start;
+  }
+  .about-quote{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-weight:400;
+    font-size:1.5rem;
+    line-height:1.45;
+    color:var(--midnight);
+    border-left:2px solid var(--gold);
+    padding-left:22px;
+  }
+  .about-body p{ margin-bottom:16px; color:var(--navy); }
+  .about-body{ font-size:1rem; }
+  .about-loc{
+    margin-top:24px; display:flex; gap:8px; align-items:center;
+    font-family:'IBM Plex Mono', monospace; font-size:0.78rem; color:var(--slate);
+  }
+
+  /* TIMELINE */
+  .timeline-wrap{ position:relative; padding-left:52px; }
+  .timeline-svg{ position:absolute; left:0; top:6px; bottom:6px; width:52px; }
+  .timeline-svg path{
+    fill:none; stroke:var(--navy); stroke-width:1.6;
+    stroke-dasharray:1400; stroke-dashoffset:1400;
+    transition:stroke-dashoffset 1.8s cubic-bezier(.2,.7,.2,1);
+  }
+  .timeline-wrap.in-view .timeline-svg path{ stroke-dashoffset:0; }
+  .tl-item{
+    position:relative;
+    padding:0 0 56px 28px;
+  }
+  .tl-item:last-child{ padding-bottom:0; }
+  .tl-node{
+    position:absolute; left:-52px; top:2px;
+    width:14px; height:14px; border-radius:50%;
+    background:var(--cream); border:2px solid var(--navy);
+    transition: background .3s ease, border-color .3s ease;
+  }
+  .tl-item.current .tl-node{ background:var(--gold); border-color:var(--gold); }
+  .tl-date{
+    font-family:'IBM Plex Mono', monospace; font-size:0.72rem;
+    letter-spacing:0.05em; color:var(--slate); margin-bottom:6px; display:block;
+  }
+  .tl-item h3{ font-size:1.2rem; margin-bottom:6px; }
+  .tl-item .tl-role{ font-size:0.88rem; color:var(--slate); margin-bottom:10px; font-weight:500; font-family:'Inter',sans-serif;}
+  .tl-item p{ font-size:0.95rem; color:var(--navy); max-width:56ch; }
+
+  /* RESEARCH CARDS */
+  .research-grid{
+    display:grid; grid-template-columns:1fr 1fr; gap:28px;
+  }
+  .r-card{
+    background:var(--cream-deep);
+    border:1px solid var(--line);
+    border-radius:4px;
+    padding:32px;
+    transition:transform .3s ease, box-shadow .3s ease;
+  }
+  .r-card:hover{ transform:translateY(-4px); box-shadow:0 16px 32px rgba(14,23,48,0.12); }
+  .r-card .eyebrow{ margin-bottom:14px; }
+  .r-card h3{ font-size:1.15rem; margin-bottom:12px; }
+  .r-card p{ font-size:0.92rem; color:var(--navy); margin-bottom:16px; }
+  .r-card ul{ list-style:none; }
+  .r-card li{
+    font-size:0.86rem; color:var(--navy);
+    padding-left:16px; position:relative; margin-bottom:7px;
+  }
+  .r-card li::before{
+    content:''; position:absolute; left:0; top:9px;
+    width:5px; height:1px; background:var(--gold);
+  }
+
+  /* SKILLS */
+  .skills-cols{ display:grid; grid-template-columns:repeat(3,1fr); gap:40px; }
+  .skill-group .eyebrow{ margin-bottom:16px; }
+  .skill-pills{ display:flex; flex-wrap:wrap; gap:8px; }
+  .pill{
+    font-size:0.82rem;
+    padding:7px 14px;
+    border:1px solid var(--line);
+    border-radius:100px;
+    background:var(--cream-deep);
+    transition:border-color .25s ease, transform .25s ease;
+  }
+  .pill:hover{ border-color:var(--gold); transform:translateY(-2px); }
+
+  /* CONTACT / FOOTER */
+  footer{
+    background:var(--midnight);
+    color:var(--cream);
+    padding:100px 0 40px;
+  }
+  footer h2{ color:var(--cream); }
+  .footer-top{ display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:32px; }
+  .footer-cta{ max-width:440px; }
+  .footer-cta p{ color:rgba(243,236,221,0.75); margin-top:14px; }
+  .footer-links{ display:flex; flex-direction:column; gap:12px; align-items:flex-end; }
+  .footer-links a{
+    text-decoration:none; color:var(--cream); font-family:'IBM Plex Mono',monospace;
+    font-size:0.85rem; border-bottom:1px solid rgba(243,236,221,0.3); padding-bottom:2px;
+    transition:border-color .25s ease, color .25s ease;
+  }
+  .footer-links a:hover{ border-color:var(--gold); color:var(--gold); }
+  .footer-bottom{
+    margin-top:80px; padding-top:24px; border-top:1px solid rgba(243,236,221,0.15);
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px;
+    font-family:'IBM Plex Mono',monospace; font-size:0.72rem; color:rgba(243,236,221,0.5);
+  }
+
+  [data-reveal]{ opacity:0; transform:translateY(18px); transition:opacity .7s ease, transform .7s ease; }
+  [data-reveal].in-view{ opacity:1; transform:translateY(0); }
+
+  @media (max-width: 860px){
+    .navlinks{ display:none; }
+    .about-grid{ grid-template-columns:1fr; gap:36px; }
+    .research-grid{ grid-template-columns:1fr; }
+    .skills-cols{ grid-template-columns:1fr; gap:28px; }
+    section{ padding:80px 0; }
+    .footer-top{ flex-direction:column; align-items:flex-start; }
+    .footer-links{ align-items:flex-start; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{ transition:none !important; animation:none !important; }
+    .timeline-svg path{ stroke-dashoffset:0 !important; }
+    [data-reveal]{ opacity:1 !important; transform:none !important; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="monogram"><span class="dot"></span>Narges Sadat</div>
+    <div class="navlinks">
+      <a href="#about">About</a>
+      <a href="#journey">Journey</a>
+      <a href="#research">Research</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-eyebrow">
+      <span class="rule"></span>
+      <span class="eyebrow">Pakistan — Grade 12</span>
+    </div>
+    <h1 class="headline">Always learning.<br><em>Always improving.</em></h1>
+    <p class="hero-sub">
+      I'm <strong>Narges Sadat</strong>, a high school student with a steady interest in
+      mathematics, computer science, and the discipline of thinking things through.
+      I build my academic foundation one systematic step at a time — and I like turning
+      curiosity into structured, meaningful work.
+    </p>
+    <div class="hero-tags">
+      <span class="tag">Mathematics</span>
+      <span class="tag">Computer Science</span>
+      <span class="tag">Analytical Thinking</span>
+      <span class="tag">Educational Research</span>
+      <span class="tag">Leadership</span>
+    </div>
+  </div>
+  <div class="scroll-cue"><div class="stem"></div>SCROLL</div>
+</header>
+
+<section id="about">
+  <div class="wrap">
+    <div class="about-grid">
+      <div data-reveal>
+        <p class="about-quote">"Combine curiosity with structure and thoughtful execution."</p>
+      </div>
+      <div class="about-body" data-reveal>
+        <p>
+          I'm driven by mathematics, technology, and analytical thinking — and by what happens
+          when the three meet a real problem. My coursework spans Mathematics, Computer Science,
+          Physics, Chemistry, Biology, and English inside an international curriculum, which gives
+          me a wide base to draw from and a reason to keep connecting the dots between subjects.
+        </p>
+        <p>
+          I enjoy taking on challenging concepts and approaching them systematically rather than
+          reaching for the first answer. Whether I'm working alone on a problem set or alongside
+          a team on a research initiative, I try to bring the same combination of curiosity,
+          structure, and follow-through.
+        </p>
+        <div class="about-loc">📍 Pakistan · International Curriculum, Grade 12</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="journey">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <span class="eyebrow">A Path, Not a List</span>
+      <h2>The academic journey so far</h2>
+    </div>
+
+    <div class="timeline-wrap">
+      <svg class="timeline-svg" viewBox="0 0 52 900" preserveAspectRatio="none">
+        <path d="M 26 0 L 26 900"></path>
+      </svg>
+
+      <div class="tl-item" data-reveal>
+        <span class="tl-node"></span>
+        <span class="tl-date">Mar 2024 – Dec 2025</span>
+        <h3>Firdowsi High School</h3>
+        <div class="tl-role">Project-based secondary education</div>
+        <p>Built practical knowledge through project-based, problem-oriented learning —
+        exploring real-world challenges through interdisciplinary thinking and collaboration,
+        with a focus on connecting classroom learning to real needs.</p>
+      </div>
+
+      <div class="tl-item" data-reveal>
+        <span class="tl-node"></span>
+        <span class="tl-date">Sep 2024 – Dec 2024</span>
+        <h3>Research — Education & Family Support in Hazara Town</h3>
+        <div class="tl-role">Community-based educational research</div>
+        <p>Examined how family support, socioeconomic conditions, and local resources shape
+        students' educational experiences — studying parental involvement, access barriers,
+        and community support systems, then proposing ways to strengthen them.</p>
+      </div>
+
+      <div class="tl-item" data-reveal>
+        <span class="tl-node"></span>
+        <span class="tl-date">Feb 2025 – Aug 2025</span>
+        <h3>Research — STEAM Global Gateway Initiative</h3>
+        <div class="tl-role">Interdisciplinary program design</div>
+        <p>Reviewed global STEAM education models, analyzed barriers to participation in STEM
+        and creative learning, and designed a conceptual framework connecting educators, students,
+        and research institutions to strengthen access to quality education.</p>
+      </div>
+
+      <div class="tl-item" data-reveal>
+        <span class="tl-node"></span>
+        <span class="tl-date">Sep 2025</span>
+        <h3>eCornell — Leadership & Personal Development</h3>
+        <div class="tl-role">Certificate program, facilitated by MEXOXO</div>
+        <p>Completed a collaborative program on leadership, global education, cross-cultural
+        collaboration, and youth empowerment, officially certified by the program director.</p>
+      </div>
+
+      <div class="tl-item current" data-reveal>
+        <span class="tl-node"></span>
+        <span class="tl-date">Mar 2026 – Present</span>
+        <h3>Education Bridge for Afghanistan</h3>
+        <div class="tl-role">Upper Secondary Education, Grade 12</div>
+        <p>Pursuing an international high school education across Mathematics, English, Physics,
+        Chemistry, Biology, and Computer Science — with an emphasis on scientific inquiry,
+        critical reasoning, and practical problem-solving.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="research">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <span class="eyebrow">Applied Curiosity</span>
+      <h2>Research & initiatives</h2>
+    </div>
+    <div class="research-grid">
+      <div class="r-card" data-reveal>
+        <span class="eyebrow">Feb – Aug 2025</span>
+        <h3>STEAM Global Gateway Initiative</h3>
+        <p>An interdisciplinary effort to improve equitable access to Science, Technology,
+        Engineering, Arts, and Mathematics education for students in underserved communities.</p>
+        <ul>
+          <li>Reviewed global STEAM education models and access frameworks</li>
+          <li>Analyzed barriers affecting STEM & creative learning participation</li>
+          <li>Designed a conceptual program connecting educators, students & institutions</li>
+        </ul>
+      </div>
+      <div class="r-card" data-reveal>
+        <span class="eyebrow">Sep – Dec 2024</span>
+        <h3>Education & Family Support in Hazara Town</h3>
+        <p>A community-based study on how family support and socioeconomic conditions shape
+        students' educational outcomes in Hazara Town.</p>
+        <ul>
+          <li>Investigated links between parental involvement & learning outcomes</li>
+          <li>Examined socioeconomic effects on educational opportunity</li>
+          <li>Developed recommendations to strengthen family engagement</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap">
+    <div class="section-head" data-reveal>
+      <span class="eyebrow">How I Work</span>
+      <h2>Skills & strengths</h2>
+    </div>
+    <div class="skills-cols">
+      <div class="skill-group" data-reveal>
+        <span class="eyebrow">Analytical & Research</span>
+        <div class="skill-pills">
+          <span class="pill">Critical Thinking</span>
+          <span class="pill">Qualitative Research</span>
+          <span class="pill">Research Analysis</span>
+          <span class="pill">Literature Reviews</span>
+          <span class="pill">Interviewing</span>
+          <span class="pill">Social Research</span>
+          <span class="pill">Problem Solving</span>
+        </div>
+      </div>
+      <div class="skill-group" data-reveal>
+        <span class="eyebrow">Academic Foundation</span>
+        <div class="skill-pills">
+          <span class="pill">Mathematics</span>
+          <span class="pill">Physics</span>
+          <span class="pill">STEAM Education</span>
+        </div>
+      </div>
+      <div class="skill-group" data-reveal>
+        <span class="eyebrow">Leadership & Impact</span>
+        <div class="skill-pills">
+          <span class="pill">Leadership</span>
+          <span class="pill">Educational Program Development</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="footer-cta" data-reveal>
+        <span class="eyebrow" style="color:var(--gold);">Let's Connect</span>
+        <h2>Open to conversations on math, code & education research.</h2>
+        <p>Currently a Grade 12 student in Pakistan, always glad to talk through
+        an idea, a research angle, or a problem worth solving.</p>
+      </div>
+      <div class="footer-links" data-reveal>
+        <a href="https://www.linkedin.com/in/nargessadat" target="_blank" rel="noopener">LinkedIn ↗</a>
+        <a href="#about">Back to top ↑</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>Narges Sadat — Mathematics · Computer Science · Analytical Thinking</span>
+      <span>Grade 12 · Pakistan</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const revealEls = document.querySelectorAll('[data-reveal]');
+  const timelineWrap = document.querySelector('.timeline-wrap');
+
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){ e.target.classList.add('in-view'); }
+    });
+  }, { threshold: 0.15 });
+
+  revealEls.forEach(el=>io.observe(el));
+
+  const tlIo = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){ e.target.classList.add('in-view'); }
+    });
+  }, { threshold: 0.1 });
+  if(timelineWrap) tlIo.observe(timelineWrap);
+</script>
+
+</body>
+</html>
